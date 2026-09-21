@@ -1,0 +1,27 @@
+% salto de página después del índice
+\let\oldtableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{\oldtableofcontents\clearpage}
+
+% tablas más espaciadas
+\usepackage{booktabs}
+\renewcommand{\arraystretch}{1.4}
+
+% páginas horizontales para el diagrama
+\usepackage{pdflscape}
+
+% portada
+\usepackage{titling}
+\renewcommand{\maketitle}{%
+  \begin{titlepage}
+  \centering
+  \vspace*{\fill}
+  {\Huge\bfseries\thetitle\par}
+  \vspace{1cm}
+  {\Large\thesubtitle\par}
+  \vspace{2cm}
+  {\Large\theauthor\par}
+  \vspace{0.5cm}
+  {\large\thedate\par}
+  \vspace*{\fill}
+  \end{titlepage}
+}
