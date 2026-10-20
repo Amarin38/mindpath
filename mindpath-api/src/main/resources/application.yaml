@@ -1,6 +1,13 @@
 spring:
+  data:
+    mongodb:
+      auto-index-creation: true
   application:
     name: mindpath-api
+  config:
+    import: optional:file:.env[.properties]
   mongodb:
-    uri: ${MONGODB_URI}
-    database: ${MONGODB_NAME}
+    uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWD}@${MONGODB_HOST}/mindpath?appName=Cluster0
+
+server:
+  port: 8090

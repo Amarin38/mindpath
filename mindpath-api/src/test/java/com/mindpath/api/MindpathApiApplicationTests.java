@@ -1,4 +1,4 @@
-package com.mindpath.mindpath_api;
+package com.mindpath.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.mindpath.mindpath_api;
+package com.mindpath.api;
 
 import org.springframework.boot.SpringApplication;
 
