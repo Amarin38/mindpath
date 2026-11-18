@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    env_file: .env
+    networks:
+      default:
+      proxy:
+        aliases:
+          - mindpath
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
