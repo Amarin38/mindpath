@@ -2,6 +2,7 @@ package com.mindpath.api.curso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.bson.types.ObjectId;
 
@@ -41,6 +42,10 @@ public class Tema {
         Recurso recurso = new Recurso(tipo, titulo, url, recursos.size() + 1);
         recursos.add(recurso);
         return recurso;
+    }
+
+    public boolean estaDesbloqueadoPara(Set<String> temasAprobados) {
+        return temasAprobados.containsAll(prerrequisitos);
     }
 
     public List<String> getPrerrequisitos() {

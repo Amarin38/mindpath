@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.mindpath.api.common.enums.NivelDominioEnum;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,8 +36,10 @@ public class ProgresoTema {
 
     private boolean desbloqueado = false;
 
+
     private static final double FACTOR_APRENDIZAJE = 0.4;
     private static final double UMBRAL_APROBACION = 0.7;
+    private static final double UMBRAL_NIVEL_MEDIO = 0.4;
 
     public ProgresoTema(String alumnoId, String temaId) {
         this.alumnoId = alumnoId;
@@ -61,6 +65,16 @@ public class ProgresoTema {
 
     public boolean estaAprobado() {
         return nivelDominio != null && nivelDominio >= UMBRAL_APROBACION;
+    }
+
+    public NivelDominioEnum categoriaNivel() {
+        if (nivelDominio == null)
+            return null;
+        if (nivelDominio < UMBRAL_NIVEL_MEDIO)
+            return NivelDominioEnum.BAJO;
+        if (nivelDominio < UMBRAL_APROBACION)
+            return NivelDominioEnum.MEDIO;
+        return NivelDominioEnum.ALTO;
     }
 
     public void desbloquear() {

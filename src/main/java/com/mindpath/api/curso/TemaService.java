@@ -1,11 +1,14 @@
 package com.mindpath.api.curso;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.mindpath.api.curso.dto.RecursoRequest;
 import com.mindpath.api.curso.dto.TemaRequest;
+import com.mindpath.api.progreso.ProgresoService;
+import com.mindpath.api.usuario.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class TemaService {
     private final CursoService cursoService;
     private final CursoRepository cursoRepository;
+    private final ProgresoService progresoService;
+    private final UsuarioService usuarioService;
 
     public Tema addTema(String cursoId, TemaRequest req) {
         Curso curso = cursoService.obtener(cursoId);
@@ -38,9 +43,21 @@ public class TemaService {
         return recurso;
     }
 
-    public void addPrerrquisito(String cursoId, String temaId, String prerrequisitoId) {
+    public void addPrerrequisito(String cursoId, String temaId, String prerrequisitoId) {
         Curso curso = cursoService.obtener(cursoId);
         curso.addPrerrequisito(temaId, prerrequisitoId);
         cursoRepository.save(curso);
+    }
+
+    public List<Tema> temasDisponibles(String cursoId, String alumnoId) {
+        usuarioService.obtenerAlumno(alumnoId);
+
+        List<Tema> temas = cursoService.obtener(cursoId).getTemas();
+        Set<String> aprobados = progresoService.temasAprobados(alumnoId,
+                temas.stream().map(Tema::getId).toList());
+
+        return temas.stream()
+                .filter(t -> t.estaDesbloqueadoPara(aprobados))
+                .toList();
     }
 }

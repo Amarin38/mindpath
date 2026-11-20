@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: mindpath-calificacion
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: calificacion
+      auto-offset-reset: earliest
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+      properties:
+        "[spring.json.value.default.type]": com.mindpath.calificacion.dto.CalificacionRequest
+        "[spring.json.use.type.headers]": false
+        "[spring.json.trusted.packages]": com.mindpath.calificacion.dto
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      properties:
+        "[spring.json.add.type.headers]": false
+
+server:
+  port: 8091

@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.mindpath.api.common.exception.ResourceNotFoundException;
 import com.mindpath.api.curso.dto.CursoRequest;
-import com.mindpath.api.inscripcion.enums.EstadoInscripcionEnum;
 import com.mindpath.api.inscripcion.InscripcionRepository;
+import com.mindpath.api.inscripcion.enums.EstadoInscripcionEnum;
+import com.mindpath.api.usuario.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,8 +17,10 @@ import lombok.RequiredArgsConstructor;
 public class CursoService {
     private final CursoRepository cursoRepository;
     private final InscripcionRepository inscripcionRepository;
+    private final UsuarioService usuarioService;
 
     public Curso crear(String docenteId, CursoRequest req) {
+        usuarioService.obtenerDocente(docenteId);
         return cursoRepository.save(new Curso(req.titulo(), req.descripcion(), docenteId));
     }
 

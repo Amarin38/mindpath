@@ -8,7 +8,19 @@ spring:
     import: optional:file:.env[.properties]
   mongodb:
     uri: mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWD}@${MONGODB_HOST}/mindpath?appName=Cluster0
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+      properties:
+        "[spring.json.value.default.type]": com.mindpath.api.evaluacion.evento.EvaluacionCorregida
+        "[spring.json.use.type.headers]": false
+        "[spring.json.trusted.packages]": com.mindpath.api.evaluacion.evento
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      properties:
+        "[spring.json.add.type.headers]": false
 
 server:
   port: 8090
-  forward-headers-strategy: framework

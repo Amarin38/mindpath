@@ -3,6 +3,7 @@ package com.mindpath.api.inscripcion;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+
 import com.mindpath.api.inscripcion.enums.EstadoInscripcionEnum;
 
 public interface InscripcionRepository extends MongoRepository<Inscripcion, String> {
@@ -11,4 +12,6 @@ public interface InscripcionRepository extends MongoRepository<Inscripcion, Stri
     List<Inscripcion> findByCursoId(String cursoId);
 
     long countByCursoIdAndEstado(String cursoId, EstadoInscripcionEnum estado);
+
+    boolean existsByAlumnoIdAndCursoIdAndEstado(String alumnoId, String cursoId, EstadoInscripcionEnum estado);
 }

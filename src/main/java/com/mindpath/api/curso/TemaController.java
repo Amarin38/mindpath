@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mindpath.api.curso.TemaService;
 import com.mindpath.api.curso.dto.RecursoRequest;
 import com.mindpath.api.curso.dto.TemaRequest;
 import com.mindpath.api.curso.dto.TemaResponse;
@@ -25,15 +25,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TemaController {
     private final TemaService temaService;
-    
+
     @GetMapping("/{temaId}")
     public TemaResponse obtener(@PathVariable String cursoId, @PathVariable String temaId) {
         return TemaResponse.de(temaService.obtener(cursoId, temaId));
     }
 
     @GetMapping
-    public List<TemaResponse> listar(@PathVariable String cursoId) {
-        return temaService.listar(cursoId).stream().map(TemaResponse::de).toList();
+    public List<TemaResponse> listar(@PathVariable String cursoId,
+            @RequestParam(required = false) String disponiblesPara) {
+        List<Tema> temas = disponiblesPara != null
+                ? temaService.temasDisponibles(cursoId, disponiblesPara)
+                : temaService.listar(cursoId);
+        return temas.stream().map(TemaResponse::de).toList();
     }
 
     @PostMapping
@@ -53,6 +57,6 @@ public class TemaController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void agregarPrerrequisito(@PathVariable String cursoId, @PathVariable String temaId,
             @PathVariable String prerrequisitoId) {
-        temaService.addPrerrquisito(cursoId, temaId, prerrequisitoId);
+        temaService.addPrerrequisito(cursoId, temaId, prerrequisitoId);
     }
 }

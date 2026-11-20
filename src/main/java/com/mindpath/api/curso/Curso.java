@@ -2,7 +2,6 @@ package com.mindpath.api.curso;
 
 import com.mindpath.api.common.exception.ResourceNotFoundException;
 import com.mindpath.api.common.enums.DificultadTemaEnum;
-import com.mindpath.api.curso.Tema;
 
 import java.time.Instant;
 import java.util.ArrayList;
